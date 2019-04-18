@@ -2,10 +2,13 @@ var levelup = require('levelup')
 var leveldown = require('leveldown')
 var db = levelup(leveldown('./mydb'))
 
-var timeTotal = 7
+var timeTotal = 10
 
-setWinner:(player)=>{
-    db.put(player+"End",Date.now(),function(err,value){
+function setWinner(player){
+    console.log("helloaze");
+    console.log(player)
+    
+    db.put(player+"End", Date.now(),function(err,value){
         if (err) return console.log('anwser 1 Ooops!', err)
     })
 }
@@ -17,6 +20,10 @@ module.exports = {
         db.del("timer")
         db.del("chitaiRep")
         db.del("bernieeeeRep")
+        db.del("chitaiEnd")
+        db.del("bernieeeeEnd")
+        db.del("bernieeeeQuestion")
+        db.del("chitaiQuestion")
 
         db.put("timer",dateNow, function (err) {
             if (err) return console.log('init 1 Ooops!', err)
@@ -32,17 +39,18 @@ module.exports = {
 
         let chitaiQuestion = {
             "questions":[
-                "A abaisser en cas d'urgence. Mais n'arretera pas la légion",
+                "À abaisser en cas d'urgence. Mais n'arretera pas la légion",
                 "Si A ne dis pas bonjour a B. Quel membre de la famille de A doit être niquer",
-                "Quand tu as besoin, il n'y a qu'une chose \"HERE\"",
+                "Quand tu cherches, il n'y a qu'une chose \"HERE\"",
                 "J'ai trouvé un document entre deux salles de test. Il était écrit \"Genetic Lifeform and Disk Operating System\". Je ne sais pas ce que ça veut dire mais j'attends toujours mon gateau",
                 "Agent de la division par deux, bienvenu à la maison blanche nous avons besoin de sécuriser la safe room dans la zone au sud de notre position.<br> J'espère pour vous que vous n'avez pas perdu votre carte",
                 "[FR]Survivant avec un invité mystherbe ! - 1:27:17"
             ],
             "answers":[
                 "palette",
-                "mere",
+                "mère",
                 "mozambique",
+                "glados",
                 "safe house",
                 "smirk"
             ]
@@ -51,11 +59,11 @@ module.exports = {
         let bernieeeeQuestion = {
             "questions":[
                 "Et donc sur",
-                "La go la c'est ptetre une fille bien. Mais que preferons nous ?",
+                "La go la c'est peut etre une fille bien. Mais que preferons nous ?",
                 "Vague, pierre, fantome, loing",
                 "A l'ultimate, on cherche à l'éviter à tout prix. Mais dans un RPG c'est souvent une bonne nouvelle",
-                "Cette chanson est vraiment beaucoup trop dure... Je n'arrive même pas les 3 premières couleurs...",
-                "<p id=\"song\" > Oh shit soraka i'm gonna die, league of ...<p> 235s"
+                "Cette chanson est vraiment la plus dure de toute... Je n'arrive même pas les 3 premières couleurs...",
+                "<p id=\"song\" > Oh shit soraka i'm gonna die !! p> 235s"
             ],
             "answers":[
                 "hoth",
@@ -73,10 +81,17 @@ module.exports = {
 
         db.put('chitaiQuestion',JSON.stringify(chitaiQuestion) , function (err) {
             if (err) return console.log('Init 3 Ooops!', err)
-            res.send("ok")
         })
 
+        // TODO add 0 in timer for thoses bitches then make the winerFunction
+        db.put('chitaiEnd',99999999999999 , function (err) {
+            if (err) return console.log('Init 3 Ooops!', err)
+        })
 
+        db.put('bernieeeeEnd',99999999999999, function (err) {
+            if (err) return console.log('Init 3 Ooops!', err)
+            res.send("ok")
+        })
     },
 
     answerQuestion: (player,answer,res)=> {      
@@ -89,7 +104,7 @@ module.exports = {
                 result = value.toString()
                 result = JSON.parse(result)
                 
-                console.log(`Total: ${result.answers.length - 1} - index:${parseInt(questionIndex)}`);
+                console.log(`Answer: ${answer} - RealAnswer:${result.answers[parseInt(questionIndex)]}`);
 
                 if(result.answers.length - 1 == parseInt(questionIndex)){
                     res.send({
@@ -148,6 +163,24 @@ module.exports = {
         })
         .catch((err)=>{
             res.send(err)
+        })
+    },
+    getWinner: (res)=> {
+        console.log("hello");
+        
+        db.get("chitaiEnd")
+        .then(function(chitaiEnd){
+            db.get("bernieeeeEnd")
+            .then(function(bernieeeeEnd){
+                console.log(bernieeeeEnd.toString());
+                console.log(parseInt(chitaiEnd));
+                
+                var result = {
+                    "bernieeee":bernieeeeEnd == null ? 0 : parseInt(bernieeeeEnd),
+                    "chitai":chitaiEnd == null ? 0 : parseInt(chitaiEnd)
+                }
+                res.send(JSON.stringify(result))
+            })
         })
     },
 }

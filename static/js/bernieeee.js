@@ -2,12 +2,28 @@ var player = "bernieeee"
 
 changeQuestion()
 
+// Get the input field
+var input = document.getElementById("answer");
+
+// Execute a function when the user releases a key on the keyboard
+input.addEventListener("keyup", function(event) {
+  // Number 13 is the "Enter" key on the keyboard
+  if (event.keyCode === 13) {
+    // Cancel the default action, if needed
+    event.preventDefault();
+    // Trigger the button element with a click
+    document.getElementById("button").click();
+    input.value = ""
+
+  }
+});
+
 function answerQuestion(){
     let answer = document.getElementById("answer").value
 
     console.log(answer)
     var xhr = new XMLHttpRequest();
-    var url = "http://192.168.43.90:8080/api/answerQuestion";
+    var url = "http://localhost:8080/api/answerQuestion";
     xhr.open("post", url, true);
     xhr.setRequestHeader("Content-Type", "application/json");
     xhr.onreadystatechange = function () {
@@ -15,6 +31,7 @@ function answerQuestion(){
             var json = JSON.parse(xhr.responseText);
             console.log("answerResponse: "+ JSON.stringify(json))
             handleAnswerResponse(json)
+            document.getElementById("answer").value = ""
         }
     };
     let body = {
@@ -42,7 +59,7 @@ function handleAnswerResponse(result){
 
 function changeQuestion(){
     var xhr = new XMLHttpRequest();
-    var url = "http://192.168.43.90:8080/api/getCurrentQuestion?player="+player;
+    var url = "http://localhost:8080/api/getCurrentQuestion?player="+player;
     xhr.open("get", url, true);
     xhr.setRequestHeader("Content-Type", "application/json");
     xhr.onreadystatechange = function () {
@@ -55,6 +72,5 @@ function changeQuestion(){
 }
 
 function handleEnd(){
-    console.log("end");
-    
+    window.location.href='/end.html'
 }

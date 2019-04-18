@@ -2,7 +2,7 @@ initTimer()
 
 function initTimer(){
     var xhr = new XMLHttpRequest();
-    var url = "http://192.168.43.90:8080/api/getSecondLeft";
+    var url = "http://localhost:8080/api/getSecondLeft";
     xhr.open("get", url, true);
     xhr.setRequestHeader("Content-Type", "application/json");
     xhr.onreadystatechange = function () {

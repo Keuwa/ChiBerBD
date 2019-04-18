@@ -31,6 +31,10 @@ app.get("/api/getSecondLeft",function(req, res){
     services.getSecondLeft(res)
 })
 
+app.get("/api/winner",function(req, res){
+    services.getWinner(res)
+})
+
 app.get("/api/getScoring",function(req, res){
     services.getScoring(res)
 })

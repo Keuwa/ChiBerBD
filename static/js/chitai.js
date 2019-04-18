@@ -2,29 +2,52 @@ var player = "chitai"
 
 changeQuestion()
 
+// Get the input field
+var input = document.getElementById("answer");
+
+// Execute a function when the user releases a key on the keyboard
+input.addEventListener("keyup", function(event) {
+  // Number 13 is the "Enter" key on the keyboard
+  if (event.keyCode === 13) {
+    // Cancel the default action, if needed
+    event.preventDefault();
+    // Trigger the button element with a click
+    document.getElementById("button").click();
+    input.value = ""
+
+  }
+});
+
 function answerQuestion(){
     let answer = document.getElementById("answer").value
 
+    console.log(answer)
     var xhr = new XMLHttpRequest();
-    var url = "http://192.168.43.90:8080/api/answerQuestion";
+    var url = "http://localhost:8080/api/answerQuestion";
     xhr.open("post", url, true);
     xhr.setRequestHeader("Content-Type", "application/json");
     xhr.onreadystatechange = function () {
         if (xhr.readyState === 4 && xhr.status === 200) {
             var json = JSON.parse(xhr.responseText);
-            console.log("answerResponse: "+ json)
+            console.log("answerResponse: "+ JSON.stringify(json))
             handleAnswerResponse(json)
+            document.getElementById("answer").value = ""
         }
     };
     let body = {
         "player":player,
         "answer":answer
     }
-    xhr.send(body);
+    xhr.send(JSON.stringify(body));
 }
 
 function handleAnswerResponse(result){
-    if (result){
+    if (result.over){
+        handleEnd()
+        return
+    }
+
+    if (result.result){
         alert("Bonne réponse")
         changeQuestion()
     } else {
@@ -36,8 +59,7 @@ function handleAnswerResponse(result){
 
 function changeQuestion(){
     var xhr = new XMLHttpRequest();
-    console.log("hey")
-    var url = "http://192.168.43.90:8080/api/getCurrentQuestion?player="+player;
+    var url = "http://localhost:8080/api/getCurrentQuestion?player="+player;
     xhr.open("get", url, true);
     xhr.setRequestHeader("Content-Type", "application/json");
     xhr.onreadystatechange = function () {
@@ -47,4 +69,8 @@ function changeQuestion(){
         }
     };
     xhr.send();
+}
+
+function handleEnd(){
+    window.location.href='/end.html'
 }

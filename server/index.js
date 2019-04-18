@@ -22,5 +22,8 @@ module.exports = {
     },
     getCurrentQuestion: (player,res)=> {
         database.getCurrentQuestion(player,res)
+    },
+    getWinner: (res)=> {
+        database.getWinner(res)
     }
 }
