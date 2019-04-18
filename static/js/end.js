@@ -1,5 +1,5 @@
 var xhr = new XMLHttpRequest();
-var url = "http://localhost:8080/api/winner"
+var url = "https://chiberbd.appspot.com:8080/api/winner"
 xhr.open("get", url, true);
 xhr.setRequestHeader("Content-Type", "application/json");
 xhr.onreadystatechange = function () {
