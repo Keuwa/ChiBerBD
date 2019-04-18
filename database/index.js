@@ -1,6 +1,8 @@
 var levelup = require('levelup')
 var leveldown = require('leveldown')
-var db = levelup(leveldown('./mydb'))
+var db = levelup(leveldown('./mydb')).catch(function(err){
+    console.log("Db not opening:",err)
+})
 
 var timeTotal = 10
 
@@ -17,6 +19,8 @@ module.exports = {
     initDb: (res)=> {
         var dateNow = Date.now()
         
+
+
         db.del("timer")
         db.del("chitaiRep")
         db.del("bernieeeeRep")
