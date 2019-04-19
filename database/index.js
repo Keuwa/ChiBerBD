@@ -21,16 +21,30 @@ module.exports = {
             db = levelup(leveldown('./mydb'))
         }
 
-        db.del("timer")
-        db.del("chitaiRep")
-        db.del("bernieeeeRep")
-        db.del("chitaiEnd")
-        db.del("bernieeeeEnd")
-        db.del("bernieeeeQuestion")
-        db.del("chitaiQuestion")
+        db.del("timer", function (err) {
+            if (err) res.send({"err11":err.toString()})
+        })
+        db.del("chitaiRep", function (err) {
+            if (err) res.send({"err12":err.toString()})
+        })
+        db.del("bernieeeeRep", function (err) {
+            if (err) res.send({"err13":err.toString()})
+        })
+        db.del("chitaiEnd", function (err) {
+            if (err) res.send({"err14":err.toString()})
+        })
+        db.del("bernieeeeEnd", function (err) {
+            if (err) res.send({"err15":err.toString()})
+        })
+        db.del("bernieeeeQuestion", function (err) {
+            if (err) res.send({"err16":err.toString()})
+        })
+        db.del("chitaiQuestion", function (err) {
+            if (err) res.send({"err17":err.toString()})
+        })
 
         db.put("timer",dateNow, function (err) {
-            if (err) res.send({"err1":err.toString()})
+            if (err) res.send({"err18":err.toString()})
         })
 
         db.put('chitaiRep', 0, function (err) {
