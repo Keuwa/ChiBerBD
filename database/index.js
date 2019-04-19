@@ -9,7 +9,7 @@ function setWinner(player){
     console.log(player)
     
     db.put(player+"End", Date.now(),function(err,value){
-        if (err) return console.log('anwser 1 Ooops!', err)
+        if (err) res.send(err)
     })
 }
 
@@ -28,15 +28,15 @@ module.exports = {
         db.del("chitaiQuestion")
 
         db.put("timer",dateNow, function (err) {
-            if (err) console.log('init 1 Ooops!', err)
+            if (err) res.send(err)
         })
 
         db.put('chitaiRep', 0, function (err) {
-            if (err) console.log('Init 2 Ooops!', err)
+            if (err) res.send(err)
         })
 
         db.put('bernieeeeRep',0 , function (err) {
-            if (err) console.log('Init 3 Ooops!', err)
+            if (err) res.send(err)
         })
 
         let chitaiQuestion = {
@@ -78,31 +78,30 @@ module.exports = {
         }
 
         db.put('bernieeeeQuestion',JSON.stringify(bernieeeeQuestion) , function (err) {
-            if (err)  console.log('Init 3 Ooops!', err)
+            if (err) res.send(err)
         })
 
         db.put('chitaiQuestion',JSON.stringify(chitaiQuestion) , function (err) {
-            if (err)  console.log('Init 3 Ooops!', err)
+            if (err)  res.send(err)
         })
 
         // TODO add 0 in timer for thoses bitches then make the winerFunction
         db.put('chitaiEnd',99999999999999 , function (err) {
-            if (err)  console.log('Init 3 Ooops!', err)
+            if (err)  res.send(err)
         })
 
         db.put('bernieeeeEnd',99999999999999, function (err) {
-            if (err) console.log('Init 3 Ooops!', err)
-            
+            if (err) res.send(err)
             res.send("ok")
         })
     },
 
     answerQuestion: (player,answer,res)=> {      
         db.get(player + "Rep", function (err, questionIndex) {
-            if (err) return console.log('Error getting player !', err)
+            if (err) res.send(err)
             
             db.get(player + "Question", function(err, value){
-                if (err) return console.log('anwser 1 Ooops!', err)
+                if (err) res.send(err)
                 
                 result = value.toString()
                 result = JSON.parse(result)
@@ -121,7 +120,7 @@ module.exports = {
 
                 if (result.answers[parseInt(questionIndex)] === answer.toLowerCase()){
                     db.put(player+"Rep", parseInt(questionIndex) + 1, function(err){
-                        if (err) return console.log('anwser 1 Ooops!', err)
+                        if (err) res.send(err)
                         res.send({
                             "result":true,
                             "over":false
@@ -143,7 +142,7 @@ module.exports = {
             if (err) res.send(err) // likely the key was not found
 
             db.get(player+"Question",function (err,value){
-                if (err) return console.log('anwser 1 Ooops!', err)
+                if (err) res.send(err)
                 result = value.toString()
                 result = JSON.parse(result)
                 
