@@ -3,6 +3,8 @@ var leveldown = require('leveldown')
 
 var timeTotal = 10
 
+var db = levelup(leveldown('./mydb'))
+
 function setWinner(player){
     console.log("helloaze");
     console.log(player)
@@ -16,7 +18,6 @@ module.exports = {
     initDb: (res)=> {
         var dateNow = Date.now()
         
-        var db = levelup(leveldown('./mydb'))
         
         setTimeout(function(){ 
             db.del("timer", function (err) {
