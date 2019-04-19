@@ -140,7 +140,7 @@ module.exports = {
     
     getCurrentQuestion: (player,res)=> {        
         db.get(player + "Rep", function (err, currentQuestion) {
-            if (err) return console.log('Ooops!', err) // likely the key was not found
+            if (err) res.send(err) // likely the key was not found
 
             db.get(player+"Question",function (err,value){
                 if (err) return console.log('anwser 1 Ooops!', err)
