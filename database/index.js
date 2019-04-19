@@ -1,6 +1,5 @@
 var levelup = require('levelup')
 var leveldown = require('leveldown')
-var db = levelup(leveldown('./mydb'))
 
 var timeTotal = 10
 
@@ -16,6 +15,7 @@ function setWinner(player){
 module.exports = {
     initDb: (res)=> {
         var dateNow = Date.now()
+        var db = levelup(leveldown('./mydb'))
 
         db.del("timer")
         db.del("chitaiRep")
