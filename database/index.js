@@ -1,6 +1,6 @@
 var levelup = require('levelup')
 var leveldown = require('leveldown')
-// var db = levelup(leveldown('./mydb'))
+var db = levelup(leveldown('./mydb'))
 
 var timeTotal = 10
 
@@ -17,9 +17,9 @@ module.exports = {
     initDb: (res)=> {
         var dateNow = Date.now()
         
-        // var db = levelup(leveldown('./mydb', function)
-        levelup(leveldown('./mydb', options, function (err, db) {
-            if (err) throw err
+        db = levelup(leveldown('./mydb'))
+        
+        setTimeout(function(){ 
             db.del("timer", function (err) {
                 if (err) res.send({"err11":err.toString()})
             })
@@ -109,7 +109,7 @@ module.exports = {
                 if (err) res.send({"err7":err.toString()})
                 res.send("ok")
             })
-        }))
+        }, 3000);
     },
 
     answerQuestion: (player,answer,res)=> {      

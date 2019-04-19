@@ -2,7 +2,7 @@ initTimer()
 
 function initTimer(){
     var xhr = new XMLHttpRequest();
-    var url = "https://chiberbd.appspot.com/api/getSecondLeft";
+    var url = "http://localhost/api/getSecondLeft";
     xhr.open("get", url, true);
     xhr.setRequestHeader("Content-Type", "application/json");
     xhr.onreadystatechange = function () {
