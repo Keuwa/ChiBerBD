@@ -1,11 +1,10 @@
 var levelup = require('levelup')
 var leveldown = require('leveldown')
+var db = levelup(leveldown('./mydb'))
 
 var timeTotal = 10
 
 function setWinner(player){
-    var db = levelup(leveldown('./mydb'))
-
     console.log("helloaze");
     console.log(player)
     
@@ -17,9 +16,9 @@ function setWinner(player){
 module.exports = {
     initDb: (res)=> {
         var dateNow = Date.now()
-        levelup(leveldown('./mydb'), {}, function (err, db) {
-            if (err) throw err
         
+        console.log("hey")
+
         db.del("timer")
         db.del("chitaiRep")
         db.del("bernieeeeRep")
@@ -95,13 +94,9 @@ module.exports = {
             if (err) return console.log('Init 3 Ooops!', err)
             res.send("ok")
         })
-        
-        }          
     },
 
-    answerQuestion: (player,answer,res)=> {   
-        var db = levelup(leveldown('./mydb'))
-   
+    answerQuestion: (player,answer,res)=> {      
         db.get(player + "Rep", function (err, questionIndex) {
             if (err) return console.log('Error getting player !', err)
             
@@ -142,9 +137,7 @@ module.exports = {
           })
     },
     
-    getCurrentQuestion: (player,res)=> { 
-        
-       
+    getCurrentQuestion: (player,res)=> {        
         db.get(player + "Rep", function (err, currentQuestion) {
             if (err) return console.log('Ooops!', err) // likely the key was not found
 
@@ -159,29 +152,22 @@ module.exports = {
     },
 
     getSecondLeft: (res)=> {
-        levelup(leveldown('./mydb'), {}, function (err, db) {
-            if (err) throw err
-            console.log("hello there ")
-            db.get("timer")
-            .then(function(value){
-                let timer = parseInt(value.toString())
-                let date = Date.now()
-                let dateTimer = new Date(timer + (60000 * timeTotal))
-                if (dateTimer - date > 0){
-                    res.send({"timer":dateTimer - date})
-                } else{
-                    res.send({"timer":0})
-                }
-            })
-            .catch((err)=>{
-                res.send(err)
-            })
-        }
-        
+        db.get("timer")
+        .then(function(value){
+            let timer = parseInt(value.toString())
+            let date = Date.now()
+            let dateTimer = new Date(timer + (60000 * timeTotal))
+            if (dateTimer - date > 0){
+                res.send({"timer":dateTimer - date})
+            } else{
+                res.send({"timer":0})
+            }
+        })
+        .catch((err)=>{
+            res.send(err)
+        })
     },
     getWinner: (res)=> {
-        var db = levelup(leveldown('./mydb'))
-
         console.log("hello");
         
         db.get("chitaiEnd")
