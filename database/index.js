@@ -17,7 +17,9 @@ module.exports = {
     initDb: (res)=> {
         var dateNow = Date.now()
         
-        console.log("hey")
+        if (db.isClosed()){
+            db = levelup(leveldown('./mydb'))
+        }
 
         db.del("timer")
         db.del("chitaiRep")
