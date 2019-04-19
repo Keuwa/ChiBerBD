@@ -17,8 +17,9 @@ function setWinner(player){
 module.exports = {
     initDb: (res)=> {
         var dateNow = Date.now()
-        var db = levelup(leveldown('./mydb'))
-
+        levelup(leveldown('./mydb'), {}, function (err, db) {
+            if (err) throw err
+        
         db.del("timer")
         db.del("chitaiRep")
         db.del("bernieeeeRep")
@@ -94,6 +95,8 @@ module.exports = {
             if (err) return console.log('Init 3 Ooops!', err)
             res.send("ok")
         })
+        
+        }          
     },
 
     answerQuestion: (player,answer,res)=> {   
@@ -140,7 +143,7 @@ module.exports = {
     },
     
     getCurrentQuestion: (player,res)=> { 
-        var db = levelup(leveldown('./mydb'))
+        
        
         db.get(player + "Rep", function (err, currentQuestion) {
             if (err) return console.log('Ooops!', err) // likely the key was not found
@@ -156,22 +159,25 @@ module.exports = {
     },
 
     getSecondLeft: (res)=> {
-        var db = levelup(leveldown('./mydb'))
-
-        db.get("timer")
-        .then(function(value){
-            let timer = parseInt(value.toString())
-            let date = Date.now()
-            let dateTimer = new Date(timer + (60000 * timeTotal))
-            if (dateTimer - date > 0){
-                res.send({"timer":dateTimer - date})
-            } else{
-                res.send({"timer":0})
-            }
-        })
-        .catch((err)=>{
-            res.send(err)
-        })
+        levelup(leveldown('./mydb'), {}, function (err, db) {
+            if (err) throw err
+            console.log("hello there ")
+            db.get("timer")
+            .then(function(value){
+                let timer = parseInt(value.toString())
+                let date = Date.now()
+                let dateTimer = new Date(timer + (60000 * timeTotal))
+                if (dateTimer - date > 0){
+                    res.send({"timer":dateTimer - date})
+                } else{
+                    res.send({"timer":0})
+                }
+            })
+            .catch((err)=>{
+                res.send(err)
+            })
+        }
+        
     },
     getWinner: (res)=> {
         var db = levelup(leveldown('./mydb'))
