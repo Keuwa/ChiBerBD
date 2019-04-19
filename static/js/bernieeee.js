@@ -23,7 +23,7 @@ function answerQuestion(){
 
     console.log(answer)
     var xhr = new XMLHttpRequest();
-    var url = "http://localhost/api/answerQuestion";
+    var url = "https://chiberbd.appspot.com/api/answerQuestion";
     xhr.open("post", url, true);
     xhr.setRequestHeader("Content-Type", "application/json");
     xhr.onreadystatechange = function () {
@@ -59,7 +59,7 @@ function handleAnswerResponse(result){
 
 function changeQuestion(){
     var xhr = new XMLHttpRequest();
-    var url = "http://localhost/api/getCurrentQuestion?player="+player;
+    var url = "https://chiberbd.appspot.com/api/getCurrentQuestion?player="+player;
     xhr.open("get", url, true);
     xhr.setRequestHeader("Content-Type", "application/json");
     xhr.onreadystatechange = function () {
