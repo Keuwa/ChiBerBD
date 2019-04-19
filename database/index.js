@@ -4,6 +4,8 @@ var leveldown = require('leveldown')
 var timeTotal = 10
 
 function setWinner(player){
+    var db = levelup(leveldown('./mydb'))
+
     console.log("helloaze");
     console.log(player)
     
@@ -94,7 +96,9 @@ module.exports = {
         })
     },
 
-    answerQuestion: (player,answer,res)=> {      
+    answerQuestion: (player,answer,res)=> {   
+        var db = levelup(leveldown('./mydb'))
+   
         db.get(player + "Rep", function (err, questionIndex) {
             if (err) return console.log('Error getting player !', err)
             
@@ -135,7 +139,9 @@ module.exports = {
           })
     },
     
-    getCurrentQuestion: (player,res)=> {        
+    getCurrentQuestion: (player,res)=> { 
+        var db = levelup(leveldown('./mydb'))
+       
         db.get(player + "Rep", function (err, currentQuestion) {
             if (err) return console.log('Ooops!', err) // likely the key was not found
 
@@ -150,6 +156,8 @@ module.exports = {
     },
 
     getSecondLeft: (res)=> {
+        var db = levelup(leveldown('./mydb'))
+
         db.get("timer")
         .then(function(value){
             let timer = parseInt(value.toString())
@@ -166,6 +174,8 @@ module.exports = {
         })
     },
     getWinner: (res)=> {
+        var db = levelup(leveldown('./mydb'))
+
         console.log("hello");
         
         db.get("chitaiEnd")
