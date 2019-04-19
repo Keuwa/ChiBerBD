@@ -16,9 +16,6 @@ function setWinner(player){
 module.exports = {
     initDb: (res)=> {
         var dateNow = Date.now()
-        
-        var db = levelup(leveldown('./mydb'))
-
 
         db.del("timer")
         db.del("chitaiRep")
