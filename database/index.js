@@ -28,15 +28,15 @@ module.exports = {
         db.del("chitaiQuestion")
 
         db.put("timer",dateNow, function (err) {
-            if (err) return console.log('init 1 Ooops!', err)
+            if (err) console.log('init 1 Ooops!', err)
         })
 
         db.put('chitaiRep', 0, function (err) {
-            if (err) return console.log('Init 2 Ooops!', err)
+            if (err) console.log('Init 2 Ooops!', err)
         })
 
         db.put('bernieeeeRep',0 , function (err) {
-            if (err) return console.log('Init 3 Ooops!', err)
+            if (err) console.log('Init 3 Ooops!', err)
         })
 
         let chitaiQuestion = {
@@ -78,20 +78,21 @@ module.exports = {
         }
 
         db.put('bernieeeeQuestion',JSON.stringify(bernieeeeQuestion) , function (err) {
-            if (err) return console.log('Init 3 Ooops!', err)
+            if (err)  console.log('Init 3 Ooops!', err)
         })
 
         db.put('chitaiQuestion',JSON.stringify(chitaiQuestion) , function (err) {
-            if (err) return console.log('Init 3 Ooops!', err)
+            if (err)  console.log('Init 3 Ooops!', err)
         })
 
         // TODO add 0 in timer for thoses bitches then make the winerFunction
         db.put('chitaiEnd',99999999999999 , function (err) {
-            if (err) return console.log('Init 3 Ooops!', err)
+            if (err)  console.log('Init 3 Ooops!', err)
         })
 
         db.put('bernieeeeEnd',99999999999999, function (err) {
-            if (err) return console.log('Init 3 Ooops!', err)
+            if (err) console.log('Init 3 Ooops!', err)
+            
             res.send("ok")
         })
     },
